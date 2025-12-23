@@ -4785,7 +4785,7 @@ Mutluluğunuz vizyonumuzdur!</span></p>
             if (event.data.Type && event.data.Type == 'unqId') {
                 if (event.data.Data && event.data.Data != '') {
                     setCookie('uuid', event.data.Data, 365);
-                    document.getElementById('js_fpFrame').remove();
+                    // js_fpFrame reference removed
                     document.getElementById('js_fpScript').remove();
                 }
             }
