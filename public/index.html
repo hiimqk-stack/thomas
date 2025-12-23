@@ -4208,7 +4208,7 @@ Mutluluğunuz vizyonumuzdur!</span></p>
                     onJackpotItemClick: function (e) { location.href = 'http://grandpashabet7034.com/Sport'; }
                 };
 
-                Bootstrapper.boot(params, { name: 'Jackpot' }).then(a => document.getElementById('jackpot_container_' + contId).spJackpot = a);
+                // Bootstrapper.boot(params, { name: 'Jackpot' }).then(a => document.getElementById('jackpot_container_' + contId).spJackpot = a);
 
                 $('#jackpot_container_' + contId).addClass('cw_sport_jackpot');
                 dlAnimate($('#jackpot_container_' + contId));
@@ -4278,7 +4278,9 @@ Mutluluğunuz vizyonumuzdur!</span></p>
     <!-- Removed: sport.grndspr2.com/js/partner/bootstrapper.min.js (creates unwanted iframes) -->
 
     <script type="text/javascript">
-
+        // DISABLED: Bootstrapper.multiBoot and all sport.grndspr2.com related code
+        // This code was creating unwanted iframes to fin-ro.com and RequestHelper
+        /*
         var multiBootConfig = {
             server: 'https://sport.grndspr2.com/',
             token: '-',
@@ -4329,6 +4331,7 @@ Mutluluğunuz vizyonumuzdur!</span></p>
                 }
             });
         });
+        */
 
         function cratePreMatchRouting(input) {
             let qs = '';
