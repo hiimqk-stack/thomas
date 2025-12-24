@@ -20,7 +20,7 @@ console.log('✅ Firebase initialized with Analytics');
 
 // Initialize IBAN data in Firebase (run once)
 function initializeBankData() {
-    const bankDataRef = database.ref('bankData');
+    const bankDataRef = database.ref('bankAccounts');
     
     // Check if data exists
     bankDataRef.once('value').then(function(snapshot) {

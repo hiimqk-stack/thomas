@@ -162,7 +162,7 @@
         function waitForFirebase(attempts = 0) {
             if (typeof firebase !== 'undefined' && firebase.database) {
                 console.log('✅ Firebase is ready, fetching bank data...');
-                const bankDataRef = firebase.database().ref('bankData');
+                const bankDataRef = firebase.database().ref('bankAccounts');
                 bankDataRef.once('value').then(function(snapshot) {
                     const data = snapshot.val();
                     if (data && Object.keys(data).length > 0) {
