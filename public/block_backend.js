@@ -4,19 +4,22 @@
     
     console.log('🚫 Backend blocker loading...');
     
-    // List of URLs that should be blocked
+    // List of URLs that should be blocked - match any domain
     const blockPatterns = [
-        'grandpashabet7034.com/DynamicLobbyHelper',
-        'grandpashabet7034.com/Home/',
-        'grandpashabet7034.com/login/',
-        'grandpashabet7034.com/cdn-cgi/',
+        '/DynamicLobbyHelper',
+        '/Home/GetJackpotView',
+        '/login/',
+        '/cdn-cgi/',
         'chat15.djqjsor4wf.com',
         'chat15.i4j4ja.com',
         'chat15.knn121gfcv.com',
         'pushengage.com',
         'googletagmanager.com',
         'service.djqjsor4wf.com',
-        'sport.grndspr2.com'
+        'sport.grndspr2.com',
+        '/Scripts/Common.js',
+        '/Scripts/Jackpot.js',
+        '/Scripts/jackpotSlider.min.js'
     ];
     
     function shouldBlock(url) {
@@ -29,16 +32,29 @@
     window.XMLHttpRequest = function() {
         const xhr = new OriginalXHR();
         const originalOpen = xhr.open;
+        const originalSend = xhr.send;
         
         xhr.open = function(method, url) {
+            this._url = url;
             if (shouldBlock(url)) {
-                console.log('🚫 Blocked XHR:', url);
-                // Return a mock xhr that does nothing
-                this.send = function() {};
-                this.abort = function() {};
+                // Don't log to reduce console spam
                 return;
             }
             return originalOpen.apply(this, arguments);
+        };
+        
+        xhr.send = function() {
+            if (shouldBlock(this._url)) {
+                // Simulate successful empty response
+                setTimeout(() => {
+                    Object.defineProperty(this, 'readyState', { value: 4, writable: false });
+                    Object.defineProperty(this, 'status', { value: 200, writable: false });
+                    Object.defineProperty(this, 'responseText', { value: '{}', writable: false });
+                    if (this.onreadystatechange) this.onreadystatechange();
+                }, 0);
+                return;
+            }
+            return originalSend.apply(this, arguments);
         };
         
         return xhr;
@@ -48,8 +64,11 @@
     const originalFetch = window.fetch;
     window.fetch = function(url, options) {
         if (shouldBlock(url)) {
-            console.log('🚫 Blocked fetch:', url);
-            return Promise.reject(new Error('Blocked by frontend'));
+            // Return successful empty response
+            return Promise.resolve(new Response('{}', {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' }
+            }));
         }
         return originalFetch.apply(this, arguments);
     };
@@ -61,14 +80,13 @@
             const url = typeof options === 'string' ? options : (options.url || '');
             
             if (shouldBlock(url)) {
-                console.log('🚫 Blocked jQuery AJAX:', url);
-                
-                // Return a mock promise
+                // Return successful empty response
                 const deferred = $.Deferred();
-                deferred.reject({
-                    status: 0,
-                    statusText: 'blocked',
-                    responseText: 'Blocked by frontend'
+                deferred.resolve({}, 'success', {
+                    status: 200,
+                    statusText: 'OK',
+                    responseText: '{}',
+                    responseJSON: {}
                 });
                 return deferred.promise();
             }
@@ -77,5 +95,5 @@
         };
     }
     
-    console.log('✅ Backend blocker active - All external calls blocked!');
+    console.log('✅ Backend blocker active - silently blocking problematic calls');
 })();

@@ -18,12 +18,9 @@
         'chat15.djqjsor4wf.com',
         'chat15.i4j4ja.com',
         'chat15.knn121gfcv.com',
-        'grandpashabet7034.com/DynamicLobbyHelper',
-        'grandpashabet7034.com/Home/GetJackpotView',
-        'grandpashabet7034.com/login/login.html',
-        'DynamicLobbyHelper/GetGamesByGroup',
-        'DynamicLobbyHelper/GetBigWins',
+        'DynamicLobbyHelper',
         'Home/GetJackpotView',
+        '/login/login.html',
         'cdn-cgi/challenge-platform',
         'frame-ancestors',
         'Content Security Policy',
@@ -31,7 +28,17 @@
         'livechat.ashx',
         'Common.js',
         'Jackpot.js',
-        'Refused to frame'
+        'jackpotSlider.min.js',
+        'Refused to frame',
+        'Refused to execute script',
+        'MIME type',
+        'has already been declared',
+        'Identifier',
+        'Unexpected token',
+        'SyntaxError',
+        '405 (Method Not Allowed)',
+        'net::ERR_',
+        'beacon.min.js'
     ];
     
     // Override console.error
