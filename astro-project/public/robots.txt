@@ -1,0 +1,54 @@
+# robots.txt for GrandPashabet
+# Updated: 2025-12-24
+
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /Account/
+Disallow: /api/
+Disallow: /_app/
+Disallow: /cdn-cgi/
+
+# Disallow search parameters
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /*?*session=
+
+# Allow CSS and JS
+Allow: /*.css
+Allow: /*.js
+Allow: /*.webp
+Allow: /*.jpg
+Allow: /*.png
+Allow: /*.svg
+
+# Sitemap location
+Sitemap: https://grandpashabet7034.com/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

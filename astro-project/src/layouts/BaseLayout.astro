@@ -1,0 +1,29 @@
+---
+const { title = 'Grandpashabet' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{title}</title>
+    
+    <!-- Firebase SDK -->
+    <script is:inline src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script is:inline src="/firebase-config.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script is:inline src="/block_backend.js"></script>
+    <script is:inline src="/suppress_errors.js"></script>
+</head>
+<body>
+    <slot />
+    
+    <!-- Custom JS -->
+    <script is:inline src="/grandpasha_login.js"></script>
+    <script is:inline src="/deposit_popup.js"></script>
+</body>
+</html>

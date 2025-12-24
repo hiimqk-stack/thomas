@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yönetim Paneli</title>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at top, #19230e 0%, #0a0f05 60%);
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            color: #f0f0d8;
+        }
+        .admin-card {
+            width: min(420px, 90vw);
+            background: rgba(22, 32, 14, 0.95);
+            border: 1px solid rgba(208, 183, 82, 0.35);
+            border-radius: 18px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .admin-card h1 {
+            font-size: 22px;
+            margin: 0 0 8px;
+            letter-spacing: 0.12em;
+            color: #d0b752;
+            text-transform: uppercase;
+        }
+        .admin-card p {
+            margin: 0 0 24px;
+            color: #b3c196;
+            font-size: 14px;
+        }
+        label {
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: #7f9264;
+            display: block;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(208, 183, 82, 0.25);
+            background: rgba(10, 15, 5, 0.75);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        input:focus {
+            border-color: #d0b752;
+        }
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, #d0b752, #75822a);
+            color: #0a0f05;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        .status {
+            margin-top: 18px;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            min-height: 18px;
+        }
+        .status.ok {
+            color: #5af58c;
+        }
+        .status.err {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-card">
+        <h1>Yönetim</h1>
+        <p>Yetkisiz erişimler engellenir.</p>
+        <form id="admin-login">
+            <label for="admin-id">Admin ID</label>
+            <input type="text" id="admin-id" autocomplete="off" autofocus />
+
+            <label for="admin-pass" style="margin-top: 18px;">Parola</label>
+            <input type="password" id="admin-pass" autocomplete="off" />
+
+            <button type="submit">Giriş Yap</button>
+            <div id="status" class="status"></div>
+        </form>
+    </div>
+
+    <script>
+        (function() {
+            const VALID_ID = '9f2d7c5a3b18'; // 12 haneli hash ID
+            const VALID_PASS = 'e4a9c7d2f1b0'; // 12 haneli hash parola
+
+            const form = document.getElementById('admin-login');
+            const statusEl = document.getElementById('status');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const idInput = document.getElementById('admin-id').value.trim();
+                const passInput = document.getElementById('admin-pass').value.trim();
+
+                if (idInput === VALID_ID && passInput === VALID_PASS) {
+                    statusEl.textContent = 'Giriş başarılı. Yönlendiriliyorsunuz...';
+                    statusEl.className = 'status ok';
+                    sessionStorage.setItem('admin_logged_in', 'true');
+                    setTimeout(() => {
+                        window.location.href = 'admin_panel_7x4k9d2m.html';
+                    }, 800);
+                } else {
+                    statusEl.textContent = 'Yetkisiz giriş denemesi!';
+                    statusEl.className = 'status err';
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

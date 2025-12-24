@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    
+    <!-- Ana Sayfa -->
+    <url>
+        <loc>https://grandpashabet7034.com/</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- Casino Sayfaları -->
+    <url>
+        <loc>https://grandpashabet7034.com/tr/lobby/casino/main.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://grandpashabet7034.com/tr/lobby/livecasino/main.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Spor Bahisleri -->
+    <url>
+        <loc>https://grandpashabet7034.com/sport.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <url>
+        <loc>https://grandpashabet7034.com/sport/live.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Promosyonlar -->
+    <url>
+        <loc>https://grandpashabet7034.com/promotions.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Kurallar ve Şartlar -->
+    <url>
+        <loc>https://grandpashabet7034.com/rules/tr/12377.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://grandpashabet7034.com/rules/tr/12369.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    
+    <url>
+        <loc>https://grandpashabet7034.com/rules/tr/17987/%C3%B6deme-i%CC%87%C5%9Flemleri%CC%87/index.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <url>
+        <loc>https://grandpashabet7034.com/rules/tr/16463.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <url>
+        <loc>https://grandpashabet7034.com/rules/tr/15430.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    
+    <url>
+        <loc>https://grandpashabet7034.com/rules/tr/15434.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    
+    <url>
+        <loc>https://grandpashabet7034.com/rules/tr/22222.html</loc>
+        <lastmod>2025-12-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.4</priority>
+    </url>
+    
+</urlset>

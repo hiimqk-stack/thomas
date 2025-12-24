@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Banka Yönetimi</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #19230e 0%, #0a0f05 60%);
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            color: #f0f0d8;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(208, 183, 82, 0.3);
+        }
+        .header h1 {
+            margin: 0;
+            color: #d0b752;
+            font-size: 24px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .logout-btn {
+            padding: 10px 20px;
+            background: rgba(208, 183, 82, 0.15);
+            border: 1px solid rgba(208, 183, 82, 0.4);
+            border-radius: 6px;
+            color: #d0b752;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .logout-btn:hover {
+            background: rgba(208, 183, 82, 0.25);
+        }
+        .bank-card {
+            background: rgba(22, 32, 14, 0.95);
+            border: 1px solid rgba(208, 183, 82, 0.35);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .bank-card h3 {
+            margin: 0 0 20px 0;
+            color: #d0b752;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #b3c196;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(10, 15, 5, 0.75);
+            border: 1px solid rgba(208, 183, 82, 0.25);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #d0b752;
+        }
+        .save-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #d0b752, #75822a);
+            border: none;
+            border-radius: 8px;
+            color: #0a0f05;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+        .save-btn:hover {
+            transform: translateY(-2px);
+        }
+        .status-msg {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: center;
+            display: none;
+        }
+        .status-msg.success {
+            background: rgba(90, 245, 140, 0.15);
+            border: 1px solid rgba(90, 245, 140, 0.3);
+            color: #5af58c;
+            display: block;
+        }
+        .status-msg.error {
+            background: rgba(255, 107, 107, 0.15);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏦 Banka Hesapları Yönetimi</h1>
+            <button class="logout-btn" onclick="logout()">Çıkış Yap</button>
+        </div>
+
+        <!-- Ziraat Bankası -->
+        <div class="bank-card">
+            <h3>🏦 Ziraat Bankası</h3>
+            <form id="bank1-form">
+                <div class="form-group">
+                    <label>Hesap Sahibi</label>
+                    <input type="text" id="bank1-owner" placeholder="Hesap sahibi adı" />
+                </div>
+                <div class="form-group">
+                    <label>IBAN</label>
+                    <input type="text" id="bank1-iban" placeholder="TR00 0000 0000 0000 0000 0000 00" />
+                </div>
+                <button type="submit" class="save-btn">Kaydet</button>
+                <div id="bank1-status" class="status-msg"></div>
+            </form>
+        </div>
+
+        <!-- Garanti BBVA -->
+        <div class="bank-card">
+            <h3>🏦 Garanti BBVA</h3>
+            <form id="bank2-form">
+                <div class="form-group">
+                    <label>Hesap Sahibi</label>
+                    <input type="text" id="bank2-owner" placeholder="Hesap sahibi adı" />
+                </div>
+                <div class="form-group">
+                    <label>IBAN</label>
+                    <input type="text" id="bank2-iban" placeholder="TR00 0000 0000 0000 0000 0000 00" />
+                </div>
+                <button type="submit" class="save-btn">Kaydet</button>
+                <div id="bank2-status" class="status-msg"></div>
+            </form>
+        </div>
+
+        <!-- İş Bankası -->
+        <div class="bank-card">
+            <h3>🏦 İş Bankası</h3>
+            <form id="bank3-form">
+                <div class="form-group">
+                    <label>Hesap Sahibi</label>
+                    <input type="text" id="bank3-owner" placeholder="Hesap sahibi adı" />
+                </div>
+                <div class="form-group">
+                    <label>IBAN</label>
+                    <input type="text" id="bank3-iban" placeholder="TR00 0000 0000 0000 0000 0000 00" />
+                </div>
+                <button type="submit" class="save-btn">Kaydet</button>
+                <div id="bank3-status" class="status-msg"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check admin session
+        (function checkAuth() {
+            const adminSession = sessionStorage.getItem('admin_logged_in');
+            if (adminSession !== 'true') {
+                window.location.href = 'a9f3c7d5e1b2f4c6.html';
+            }
+        })();
+
+        // Firebase database reference
+        const bankDataRef = firebase.database().ref('bankData');
+
+        // Default bank data
+        const defaultBanks = {
+            bank1: {
+                owner: 'GRANDPASHABET LTD',
+                iban: 'TR33 0001 0012 3456 7890 1234 56'
+            },
+            bank2: {
+                owner: 'GRANDPASHABET LTD',
+                iban: 'TR44 0006 2000 1234 5678 9012 34'
+            },
+            bank3: {
+                owner: 'GRANDPASHABET LTD',
+                iban: 'TR55 0006 4000 0011 2233 4455 66'
+            }
+        };
+
+        // Initialize forms with current data from Firebase
+        function initForms() {
+            bankDataRef.once('value').then(function(snapshot) {
+                const bankData = snapshot.val() || defaultBanks;
+                
+                document.getElementById('bank1-owner').value = bankData.bank1.owner;
+                document.getElementById('bank1-iban').value = bankData.bank1.iban;
+                
+                document.getElementById('bank2-owner').value = bankData.bank2.owner;
+                document.getElementById('bank2-iban').value = bankData.bank2.iban;
+                
+                document.getElementById('bank3-owner').value = bankData.bank3.owner;
+                document.getElementById('bank3-iban').value = bankData.bank3.iban;
+            }).catch(function(error) {
+                console.error('Firebase read error:', error);
+                showStatus('bank1', '⚠️ Firebase bağlantı hatası', false);
+            });
+        }
+
+        // Show status message
+        function showStatus(formId, message, isSuccess) {
+            const statusEl = document.getElementById(formId + '-status');
+            statusEl.textContent = message;
+            statusEl.className = 'status-msg ' + (isSuccess ? 'success' : 'error');
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // Handle form submissions - Save to Firebase
+        document.getElementById('bank1-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const owner = document.getElementById('bank1-owner').value.trim();
+            const iban = document.getElementById('bank1-iban').value.trim();
+            
+            bankDataRef.child('bank1').set({
+                owner: owner,
+                iban: iban
+            }).then(function() {
+                showStatus('bank1', '✓ Ziraat Bankası bilgileri kaydedildi (Firebase)', true);
+            }).catch(function(error) {
+                showStatus('bank1', '✗ Kayıt hatası: ' + error.message, false);
+            });
+        });
+
+        document.getElementById('bank2-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const owner = document.getElementById('bank2-owner').value.trim();
+            const iban = document.getElementById('bank2-iban').value.trim();
+            
+            bankDataRef.child('bank2').set({
+                owner: owner,
+                iban: iban
+            }).then(function() {
+                showStatus('bank2', '✓ Garanti BBVA bilgileri kaydedildi (Firebase)', true);
+            }).catch(function(error) {
+                showStatus('bank2', '✗ Kayıt hatası: ' + error.message, false);
+            });
+        });
+
+        document.getElementById('bank3-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const owner = document.getElementById('bank3-owner').value.trim();
+            const iban = document.getElementById('bank3-iban').value.trim();
+            
+            bankDataRef.child('bank3').set({
+                owner: owner,
+                iban: iban
+            }).then(function() {
+                showStatus('bank3', '✓ İş Bankası bilgileri kaydedildi (Firebase)', true);
+            }).catch(function(error) {
+                showStatus('bank3', '✗ Kayıt hatası: ' + error.message, false);
+            });
+        });
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('admin_logged_in');
+            window.location.href = 'a9f3c7d5e1b2f4c6.html';
+        }
+
+        // Initialize on load
+        initForms();
+    </script>
+</body>
+</html>
