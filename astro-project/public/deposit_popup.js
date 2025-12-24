@@ -154,7 +154,7 @@
         </style>
     `;
     
-    // Load bank data from Firebase
+    // Load bank data from Firebase (NO FALLBACK - Backend only)
     function getBankDataFromFirebase(callback) {
         console.log('💰 Attempting to load bank data from Firebase...');
         
@@ -165,112 +165,94 @@
                 const bankDataRef = firebase.database().ref('bankData');
                 bankDataRef.once('value').then(function(snapshot) {
                     const data = snapshot.val();
-                    if (data) {
+                    if (data && Object.keys(data).length > 0) {
                         console.log('✅ Bank data loaded from Firebase:', Object.keys(data).length, 'banks');
-                        callback(data);
+                        callback({ success: true, data: data });
                     } else {
-                        console.warn('⚠️ No data in Firebase, using defaults');
-                        callback(getDefaultBankData());
+                        console.error('❌ No bank data found in Firebase!');
+                        callback({ success: false, error: 'Firebase\'de banka verisi bulunamadı.' });
                     }
                 }).catch(function(error) {
                     console.error('❌ Firebase read error:', error);
-                    callback(getDefaultBankData());
+                    callback({ success: false, error: 'Firebase bağlantı hatası: ' + error.message });
                 });
-            } else if (attempts < 20) {
-                // Wait 100ms and retry (max 2 seconds)
+            } else if (attempts < 30) {
+                // Wait 100ms and retry (max 3 seconds)
                 console.log('⏳ Waiting for Firebase... attempt', attempts + 1);
                 setTimeout(function() {
                     waitForFirebase(attempts + 1);
                 }, 100);
             } else {
-                // Firebase not available after 2 seconds, use defaults
-                console.warn('⚠️ Firebase not initialized after 2s, using default bank data');
-                callback(getDefaultBankData());
+                // Firebase not available after 3 seconds
+                console.error('❌ Firebase could not be initialized after 3 seconds');
+                callback({ success: false, error: 'Firebase bağlantısı kurulamadı. Lütfen sayfayı yenileyin.' });
             }
         }
         
         waitForFirebase();
     }
     
-    // Default bank data
-    function getDefaultBankData() {
-        return {
-            bank1: { owner: 'GRANDPASHABET LTD', iban: 'TR33 0001 0012 3456 7890 1234 56' },
-            bank2: { owner: 'GRANDPASHABET LTD', iban: 'TR44 0006 2000 1234 5678 9012 34' },
-            bank3: { owner: 'GRANDPASHABET LTD', iban: 'TR55 0006 4000 0011 2233 4455 66' }
-        };
-    }
-    
-    // Generate bank section HTML dynamically
+    // Generate bank section HTML dynamically from Firebase data
     function generateBankSectionHTML(bankData) {
+        let html = '';
         
-        return `
-            <div class="account-card">
-                <h3>🏦 Ziraat Bankası</h3>
-                <div class="account-info">
-                    <span class="account-label">Hesap Sahibi:</span>
-                    <span class="account-value">${bankData.bank1.owner}</span>
-                    
-                    <span class="account-label">IBAN:</span>
-                    <span class="account-value">
-                        ${bankData.bank1.iban}
-                        <button class="copy-btn" onclick="copyToClipboard('${bankData.bank1.iban.replace(/\s/g, '')}')">Kopyala</button>
-                    </span>
-                    
-                    <span class="account-label">Şube Kodu:</span>
-                    <span class="account-value">1234</span>
-                    
-                    <span class="account-label">Hesap No:</span>
-                    <span class="account-value">98765432</span>
-                </div>
-            </div>
+        // Loop through all banks in Firebase
+        Object.keys(bankData).forEach(function(bankKey) {
+            const bank = bankData[bankKey];
             
-            <div class="account-card">
-                <h3>🏦 Garanti BBVA</h3>
-                <div class="account-info">
-                    <span class="account-label">Hesap Sahibi:</span>
-                    <span class="account-value">${bankData.bank2.owner}</span>
-                    
-                    <span class="account-label">IBAN:</span>
-                    <span class="account-value">
-                        ${bankData.bank2.iban}
-                        <button class="copy-btn" onclick="copyToClipboard('${bankData.bank2.iban.replace(/\s/g, '')}')">Kopyala</button>
-                    </span>
-                    
-                    <span class="account-label">Şube Kodu:</span>
-                    <span class="account-value">2000</span>
-                    
-                    <span class="account-label">Hesap No:</span>
-                    <span class="account-value">12345678</span>
+            // Generate card for each bank
+            html += `
+                <div class="account-card">
+                    <h3>🏦 ${bank.bankName || 'Banka'}</h3>
+                    <div class="account-info">
+                        <span class="account-label">Hesap Sahibi:</span>
+                        <span class="account-value">${bank.owner || 'N/A'}</span>
+                        
+                        <span class="account-label">IBAN:</span>
+                        <span class="account-value">
+                            ${bank.iban || 'N/A'}
+                            ${bank.iban ? `<button class="copy-btn" onclick="copyToClipboard('${bank.iban.replace(/\s/g, '')}')">Kopyala</button>` : ''}
+                        </span>
+                        
+                        ${bank.branch ? `
+                        <span class="account-label">Şube Kodu:</span>
+                        <span class="account-value">${bank.branch}</span>
+                        ` : ''}
+                        
+                        ${bank.accountNo ? `
+                        <span class="account-label">Hesap No:</span>
+                        <span class="account-value">${bank.accountNo}</span>
+                        ` : ''}
+                    </div>
                 </div>
-            </div>
-            
-            <div class="account-card">
-                <h3>🏦 İş Bankası</h3>
-                <div class="account-info">
-                    <span class="account-label">Hesap Sahibi:</span>
-                    <span class="account-value">${bankData.bank3.owner}</span>
-                    
-                    <span class="account-label">IBAN:</span>
-                    <span class="account-value">
-                        ${bankData.bank3.iban}
-                        <button class="copy-btn" onclick="copyToClipboard('${bankData.bank3.iban.replace(/\s/g, '')}')">Kopyala</button>
-                    </span>
-                    
-                    <span class="account-label">Şube Kodu:</span>
-                    <span class="account-label">4000</span>
-                    
-                    <span class="account-label">Hesap No:</span>
-                    <span class="account-value">11223344</span>
-                </div>
-            </div>
-            
+            `;
+        });
+        
+        // Add important notes
+        html += `
             <div class="deposit-note">
                 <strong>⚠️ Önemli Notlar:</strong><br>
                 • Para yatırma işlemleriniz 5-10 dakika içinde hesabınıza yansır.<br>
                 • Açıklama kısmına kullanıcı adınızı yazmayı unutmayın.<br>
                 • Minimum yatırım tutarı 50 TRY'dir.<br>
                 • Havale/EFT ile yapılan ödemeler anında işleme alınır.
+            </div>
+        `;
+        
+        return html;
+    }
+    
+    // Generate error HTML when Firebase data cannot be loaded
+    function generateErrorHTML(errorMessage) {
+        return `
+            <div class="account-card" style="background: rgba(231, 76, 60, 0.1); border-color: #e74c3c;">
+                <h3 style="color: #e74c3c;">❌ Banka Bilgileri Yüklenemedi</h3>
+                <div class="account-info">
+                    <p style="color: #fff; margin: 10px 0;">${errorMessage}</p>
+                    <button class="copy-btn" onclick="location.reload()" style="background: #e74c3c;">
+                        🔄 Sayfayı Yenile
+                    </button>
+                </div>
             </div>
         `;
     }
@@ -546,11 +528,19 @@
         if (!document.getElementById('gp-deposit-overlay')) {
             document.body.insertAdjacentHTML('beforeend', depositHTML);
             
-            // Populate bank section with dynamic data from Firebase
+            // Populate bank section with dynamic data from Firebase (NO FALLBACK)
             const bankSection = document.getElementById('bank-section');
             if (bankSection) {
-                getBankDataFromFirebase(function(bankData) {
-                    bankSection.innerHTML = generateBankSectionHTML(bankData);
+                bankSection.innerHTML = '<div style="text-align: center; padding: 40px; color: #B8B8B8;">⏳ Banka bilgileri yükleniyor...</div>';
+                
+                getBankDataFromFirebase(function(result) {
+                    if (result.success) {
+                        // Success: Generate HTML from Firebase data
+                        bankSection.innerHTML = generateBankSectionHTML(result.data);
+                    } else {
+                        // Error: Show error message with reload button
+                        bankSection.innerHTML = generateErrorHTML(result.error);
+                    }
                 });
             }
             
