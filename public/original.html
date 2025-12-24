@@ -1,21 +1,69 @@
 <!DOCTYPE html><html lang="tr" data-theme="dark" data-type="Desktop" style="overflow: visible !important; overflow-y: auto !important;" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
-<script>!function(){"use strict";const e=document.createElement("style");e.id="force-scroll-override",e.innerHTML=`
-        * { scroll-behavior: smooth !important; }
-        html, body { 
-            overflow: visible !important;
-            overflow-y: auto !important;
-            height: auto !important;
-            position: static !important;
+<style id="nuclear-scroll-fix">
+    html, html *, body, body * {
+        overflow: visible !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: auto !important;
+        position: static !important;
+        scroll-behavior: smooth !important;
+    }
+    html, body {
+        overflow-y: scroll !important;
+        height: 100% !important;
+        min-height: 100vh !important;
+    }
+    .ofh, .noscroll, body.ofh, body.noscroll, html.ofh, html.noscroll {
+        overflow: visible !important;
+        overflow-y: auto !important;
+    }
+</style>
+<script>
+(function() {
+    'use strict';
+    
+    // Nuclear option: Force scroll immediately
+    const forceScroll = () => {
+        // Remove blocking classes
+        if (document.documentElement) {
+            document.documentElement.classList.remove('ofh', 'noscroll');
+            document.documentElement.style.cssText = 'overflow: visible !important; overflow-y: auto !important;';
         }
-        .ofh, .noscroll,
-        body.ofh, body.noscroll,
-        html.ofh, html.noscroll {
-            overflow: visible !important;
-            overflow-y: auto !important;
-            height: auto !important;
-            position: static !important;
+        if (document.body) {
+            document.body.classList.remove('ofh', 'noscroll');
+            document.body.style.cssText = 'overflow: visible !important; overflow-y: auto !important; padding-left: 15px;';
         }
-    `,document.head?document.head.insertBefore(e,document.head.firstChild):document.addEventListener("DOMContentLoaded",(()=>document.head.insertBefore(e,document.head.firstChild)));const o=()=>{document.body&&(document.body.style.overflow="visible",document.body.style.overflowY="auto",document.body.classList.remove("ofh","noscroll")),document.documentElement&&(document.documentElement.style.overflow="visible",document.documentElement.style.overflowY="auto",document.documentElement.classList.remove("ofh","noscroll"))};o(),setInterval(o,100),document.addEventListener("DOMContentLoaded",o),window.addEventListener("load",o),new MutationObserver(o).observe(document.documentElement,{attributes:!0,attributeFilter:["class","style"],subtree:!0})}();</script>
+        
+        // Override any scroll prevention
+        window.addEventListener('wheel', function(e) { e.stopPropagation(); }, true);
+        window.addEventListener('touchmove', function(e) { e.stopPropagation(); }, true);
+        window.addEventListener('scroll', function(e) { e.stopPropagation(); }, true);
+    };
+    
+    // Execute immediately
+    forceScroll();
+    
+    // Execute every 50ms for first 5 seconds
+    const interval = setInterval(forceScroll, 50);
+    setTimeout(() => clearInterval(interval), 5000);
+    
+    // Execute on all events
+    ['DOMContentLoaded', 'load', 'readystatechange'].forEach(event => {
+        document.addEventListener(event, forceScroll);
+    });
+    
+    // Watch for changes
+    if (typeof MutationObserver !== 'undefined') {
+        new MutationObserver(forceScroll).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class', 'style'],
+            subtree: true
+        });
+    }
+    
+    console.log('🚀 NUCLEAR scroll fix active');
+})();
+</script>
 <script src="force_scroll.js"></script>
 <script src="block_backend.js"></script>
 
