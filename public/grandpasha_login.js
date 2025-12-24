@@ -38,14 +38,23 @@
                 }
             }
             
+            #gp-login-modal .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+            
             #gp-login-modal .form-group-label {
                 display: flex;
                 align-items: center;
-                justify-content: center;
             }
             
             #gp-login-modal .form-group-label label {
-                text-align: center;
+                text-align: left;
+                font-size: 14px;
+                font-weight: 500;
+                color: #fff;
             }
             
             .gp-header-actions {

@@ -1,21 +1,41 @@
 <!DOCTYPE html><html lang="tr" data-theme="dark" data-type="Desktop" style="overflow: visible !important; overflow-y: auto !important;" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
 <style id="nuclear-scroll-fix">
-    html, html *, body, body * {
+    /* Force scroll on everything */
+    * {
         overflow: visible !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
-        height: auto !important;
-        position: static !important;
-        scroll-behavior: smooth !important;
     }
+    
     html, body {
+        overflow: visible !important;
         overflow-y: scroll !important;
         height: 100% !important;
         min-height: 100vh !important;
+        position: relative !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
-    .ofh, .noscroll, body.ofh, body.noscroll, html.ofh, html.noscroll {
+    
+    body {
+        padding-left: 15px !important;
+    }
+    
+    /* Override any blocking classes */
+    .ofh, .noscroll,
+    body.ofh, body.noscroll,
+    html.ofh, html.noscroll,
+    [class*="ofh"], [class*="noscroll"] {
         overflow: visible !important;
-        overflow-y: auto !important;
+        overflow-y: scroll !important;
+        height: auto !important;
+        position: static !important;
+    }
+    
+    /* Ensure scrolling works */
+    html {
+        overflow-y: scroll !important;
+        scroll-behavior: smooth !important;
     }
 </style>
 <script>
