@@ -156,25 +156,40 @@
     
     // Load bank data from Firebase
     function getBankDataFromFirebase(callback) {
-        if (typeof firebase !== 'undefined' && firebase.database) {
-            const bankDataRef = firebase.database().ref('bankData');
-            bankDataRef.once('value').then(function(snapshot) {
-                const data = snapshot.val();
-                if (data) {
-                    callback(data);
-                } else {
-                    // Use defaults if no data in Firebase
+        console.log('💰 Attempting to load bank data from Firebase...');
+        
+        // Wait for Firebase to be ready
+        function waitForFirebase(attempts = 0) {
+            if (typeof firebase !== 'undefined' && firebase.database) {
+                console.log('✅ Firebase is ready, fetching bank data...');
+                const bankDataRef = firebase.database().ref('bankData');
+                bankDataRef.once('value').then(function(snapshot) {
+                    const data = snapshot.val();
+                    if (data) {
+                        console.log('✅ Bank data loaded from Firebase:', Object.keys(data).length, 'banks');
+                        callback(data);
+                    } else {
+                        console.warn('⚠️ No data in Firebase, using defaults');
+                        callback(getDefaultBankData());
+                    }
+                }).catch(function(error) {
+                    console.error('❌ Firebase read error:', error);
                     callback(getDefaultBankData());
-                }
-            }).catch(function(error) {
-                console.error('Firebase read error:', error);
+                });
+            } else if (attempts < 20) {
+                // Wait 100ms and retry (max 2 seconds)
+                console.log('⏳ Waiting for Firebase... attempt', attempts + 1);
+                setTimeout(function() {
+                    waitForFirebase(attempts + 1);
+                }, 100);
+            } else {
+                // Firebase not available after 2 seconds, use defaults
+                console.warn('⚠️ Firebase not initialized after 2s, using default bank data');
                 callback(getDefaultBankData());
-            });
-        } else {
-            // Firebase not available, use defaults
-            console.warn('Firebase not initialized, using default bank data');
-            callback(getDefaultBankData());
+            }
         }
+        
+        waitForFirebase();
     }
     
     // Default bank data
