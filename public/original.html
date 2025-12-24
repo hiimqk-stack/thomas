@@ -1,5 +1,21 @@
-<!DOCTYPE html><html lang="tr" data-theme="dark" data-type="Desktop" style="" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
-<script>!function(){"use strict";const e=document.createElement("style");if(e.id="force-scroll-override",e.innerHTML="\n        .ofh, .noscroll,\n        body.ofh, body.noscroll,\n        html.ofh, html.noscroll {\n            overflow: visible !important;\n            overflow-y: auto !important;\n            height: auto !important;\n        }\n        body {\n            overflow: visible !important;\n            overflow-y: auto !important;\n        }\n    ",document.head)document.head.insertBefore(e,document.head.firstChild);else{const o=()=>{document.head&&document.head.insertBefore(e,document.head.firstChild)};"loading"===document.readyState?document.addEventListener("DOMContentLoaded",o):o()}}();</script>
+<!DOCTYPE html><html lang="tr" data-theme="dark" data-type="Desktop" style="overflow: visible !important; overflow-y: auto !important;" class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
+<script>!function(){"use strict";const e=document.createElement("style");e.id="force-scroll-override",e.innerHTML=`
+        * { scroll-behavior: smooth !important; }
+        html, body { 
+            overflow: visible !important;
+            overflow-y: auto !important;
+            height: auto !important;
+            position: static !important;
+        }
+        .ofh, .noscroll,
+        body.ofh, body.noscroll,
+        html.ofh, html.noscroll {
+            overflow: visible !important;
+            overflow-y: auto !important;
+            height: auto !important;
+            position: static !important;
+        }
+    `,document.head?document.head.insertBefore(e,document.head.firstChild):document.addEventListener("DOMContentLoaded",(()=>document.head.insertBefore(e,document.head.firstChild)));const o=()=>{document.body&&(document.body.style.overflow="visible",document.body.style.overflowY="auto",document.body.classList.remove("ofh","noscroll")),document.documentElement&&(document.documentElement.style.overflow="visible",document.documentElement.style.overflowY="auto",document.documentElement.classList.remove("ofh","noscroll"))};o(),setInterval(o,100),document.addEventListener("DOMContentLoaded",o),window.addEventListener("load",o),new MutationObserver(o).observe(document.documentElement,{attributes:!0,attributeFilter:["class","style"],subtree:!0})}();</script>
 <script src="force_scroll.js"></script>
 <script src="block_backend.js"></script>
 
@@ -2133,7 +2149,7 @@
         document.head.appendChild(style);
       }
     };</script></head>
-<body class="ofh" style="padding-left: 15px;">
+<body style="padding-left: 15px; overflow: visible !important; overflow-y: auto !important;">
 
         <!-- Google Tag Manager (noscript) -->
         <noscript>
