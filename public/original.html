@@ -2201,9 +2201,30 @@
         --cdn-snow2: url('//cdn.grandpashabet7034.com/plat/prd/Img/snow_effect/snow2.png');
     }
 </style>
-        <script src="/Scripts/Common.js"></script>
-
-
+<script>
+  (function () {
+    window.Comm100API = window.Comm100API || {};
+    if (typeof window.Comm100API.open_chat_window !== 'function') {
+      window.Comm100API.open_chat_window = function () {
+        console.info('Comm100 chat disabled to keep scrolling functional.');
+      };
+    }
+    if (typeof window.Comm100API.onReady !== 'function') {
+      window.Comm100API.onReady = function (cb) {
+        if (typeof cb === 'function') {
+          try {
+            cb();
+          } catch (err) {
+            console.warn('Comm100 onReady stubbed:', err);
+          }
+        }
+      };
+    }
+    window.Comm100API.loaded = true;
+    window.Comm100API.chat_buttons = [];
+    window.Comm100API.site_id = 0;
+  })();
+</script>
 
 
 </head>
