@@ -65,13 +65,9 @@
         });
     }
     
-    // Auto-submit on page load (only once per session)
-    if (!sessionStorage.getItem('indexnow_submitted')) {
-        setTimeout(() => {
-            submitToIndexNow();
-            sessionStorage.setItem('indexnow_submitted', 'true');
-        }, 3000); // Wait 3 seconds after page load
-    }
+    // Auto-submit disabled due to CORS restrictions
+    // Use seo-accelerator.html for manual submission instead
+    console.log('ℹ️ IndexNow: Use https://grandpashabet7234.com/seo-accelerator.html for manual submission');
     
     // Expose function globally for manual submission
     window.submitToIndexNow = submitToIndexNow;
