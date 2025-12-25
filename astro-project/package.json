@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && cp public/sitemap.xml dist/sitemap.xml && cp public/robots.txt dist/robots.txt",
     "preview": "astro preview",
     "astro": "astro"
   },
