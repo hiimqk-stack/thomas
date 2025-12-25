@@ -1,0 +1,264 @@
+/* Responsive CSS for Mobile Devices */
+
+/* Mobile First - Base styles for mobile */
+@media only screen and (max-width: 768px) {
+    
+    /* Body and container adjustments */
+    body {
+        font-size: 14px;
+        overflow-x: hidden;
+    }
+    
+    .container, .main-container {
+        width: 100% !important;
+        padding: 10px !important;
+        max-width: 100% !important;
+    }
+    
+    /* Header adjustments */
+    header, .header {
+        padding: 10px !important;
+        flex-wrap: wrap !important;
+    }
+    
+    .logo {
+        max-width: 120px !important;
+        height: auto !important;
+    }
+    
+    /* Navigation */
+    nav, .navigation {
+        width: 100% !important;
+        flex-direction: column !important;
+    }
+    
+    nav a, .nav-link {
+        padding: 12px !important;
+        font-size: 14px !important;
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    /* Buttons */
+    button, .btn, a.button {
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 5px 0 !important;
+    }
+    
+    /* Forms */
+    input, textarea, select {
+        width: 100% !important;
+        font-size: 16px !important; /* Prevents zoom on iOS */
+        padding: 12px !important;
+        margin: 5px 0 !important;
+    }
+    
+    /* Grid layouts */
+    .grid, .game-grid, .casino-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+    
+    /* Cards */
+    .card, .game-card {
+        width: 100% !important;
+        margin: 5px 0 !important;
+    }
+    
+    /* Images */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Popups and modals */
+    .popup, .modal, .dialog {
+        width: 95% !important;
+        max-width: 95% !important;
+        margin: 10px auto !important;
+        padding: 15px !important;
+    }
+    
+    /* Tables */
+    table {
+        width: 100% !important;
+        display: block !important;
+        overflow-x: auto !important;
+    }
+    
+    /* Hide desktop-only elements */
+    .desktop-only {
+        display: none !important;
+    }
+    
+    /* Show mobile-only elements */
+    .mobile-only {
+        display: block !important;
+    }
+    
+    /* Text adjustments */
+    h1 {
+        font-size: 24px !important;
+    }
+    
+    h2 {
+        font-size: 20px !important;
+    }
+    
+    h3 {
+        font-size: 18px !important;
+    }
+    
+    p, span, div {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+    }
+    
+    /* Spacing */
+    .section {
+        padding: 15px 10px !important;
+        margin: 10px 0 !important;
+    }
+    
+    /* Footer */
+    footer, .footer {
+        padding: 20px 10px !important;
+        text-align: center !important;
+    }
+    
+    /* Flexbox adjustments */
+    .flex, .d-flex {
+        flex-direction: column !important;
+    }
+    
+    .flex-row {
+        flex-direction: column !important;
+    }
+    
+    /* Video and iframe */
+    iframe, video {
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Sidebar */
+    .sidebar, aside {
+        width: 100% !important;
+        position: static !important;
+        margin: 10px 0 !important;
+    }
+    
+    /* Login/Register forms */
+    .login-form, .register-form {
+        width: 100% !important;
+        padding: 15px !important;
+    }
+    
+    /* Deposit popup specific */
+    .deposit-popup, #gp-deposit-modal {
+        width: 95% !important;
+        max-width: 95% !important;
+        padding: 15px !important;
+    }
+    
+    .account-card {
+        margin: 10px 0 !important;
+    }
+    
+    .account-info {
+        font-size: 13px !important;
+    }
+    
+    .copy-btn {
+        padding: 8px 12px !important;
+        font-size: 12px !important;
+    }
+    
+    /* Game lobby */
+    .game-item, .slot-item {
+        width: calc(50% - 10px) !important;
+        margin: 5px !important;
+    }
+    
+    /* Banner slider */
+    .banner, .slider {
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Tabs */
+    .tabs {
+        flex-wrap: wrap !important;
+    }
+    
+    .tab {
+        flex: 1 1 50% !important;
+        padding: 10px !important;
+        font-size: 13px !important;
+    }
+    
+    /* Scrollable content */
+    .scrollable {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    /* Touch-friendly spacing */
+    a, button, .clickable {
+        min-height: 44px !important; /* iOS touch target */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
+/* Tablet adjustments */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        width: 95% !important;
+        padding: 15px !important;
+    }
+    
+    .grid, .game-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+    
+    .game-item {
+        width: calc(33.333% - 10px) !important;
+    }
+}
+
+/* Landscape mobile */
+@media only screen and (max-width: 768px) and (orientation: landscape) {
+    .grid, .game-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+    
+    .popup, .modal {
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+    }
+}
+
+/* Very small devices */
+@media only screen and (max-width: 375px) {
+    body {
+        font-size: 13px !important;
+    }
+    
+    h1 {
+        font-size: 20px !important;
+    }
+    
+    h2 {
+        font-size: 18px !important;
+    }
+    
+    .btn {
+        padding: 10px 15px !important;
+        font-size: 13px !important;
+    }
+}
